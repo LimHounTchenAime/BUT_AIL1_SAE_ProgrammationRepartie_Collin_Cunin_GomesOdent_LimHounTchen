@@ -10,3 +10,30 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 //Put a marker on the map
 const marker = L.marker([51.5, -0.09]).addTo(map);
+
+// Draw a circle on the map
+const circle = L.circle([51.508, -0.11], {
+  color: 'red',
+  fillColor: '#f03',
+  fillOpacity: 0.5,
+  radius: 500,
+}).addTo(map);
+
+// Draw a polygon on the map
+const polygon = L.polygon([
+  [51.509, -0.08], //vertice
+  [51.503, -0.06],
+  [51.51, -0.047]
+]).addTo(map);
+
+// Popup opens when clicking on an element
+marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+circle.bindPopup("I am a circle.")
+  .openPopup(); // Popup automatically opened.
+polygon.bindPopup("I'm a polygon");
+
+const popup = L.popup()
+  .setLatLng([51.513, -0.09])
+  .setContent("I'm a standalone popup")
+  .openOn(map); //instead of addTo - close other popups before open it
+  // .addTo(map);
