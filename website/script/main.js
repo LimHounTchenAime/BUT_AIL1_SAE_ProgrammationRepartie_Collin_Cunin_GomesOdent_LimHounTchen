@@ -1,7 +1,7 @@
 let _stations=[]
 let map;
 
-// Initialize and center the map on Nancy
+// --- Initialize and center the map on Nancy ---
 fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
   .then(response => {
     response.json().then(json => {
@@ -21,21 +21,23 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
 
-    })
-  })
 
+
+
+
+      // --- Available Velibs ---
 //ajout des infos depuis le serveur 1
-fetch("https://transport.data.gouv.fr/gbfs/nancy/station_status.json")
-    .then(response=>{
-        if(response.ok){
+      fetch("https://transport.data.gouv.fr/gbfs/nancy/station_status.json")
+        .then(response=>{
+          if(response.ok){
             response.json().then(response2=>{
-                for (let i = 0; i < response2.data.stations.length; i++) {
-                    //ajout des infos
-                    _stations[i] = { ...response2.data.stations[i], ..._stations[i] };
-                }
+              for (let i = 0; i < response2.data.stations.length; i++) {
+                //ajout des infos
+                _stations[i] = { ...response2.data.stations[i], ..._stations[i] };
+              }
             })
-        }
-    })
+          }
+        })
 
 //ajout d'infos depuis le serveur 2 et ajout stations
 fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
@@ -66,29 +68,22 @@ fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
 
 
 
-// Traffic problems
-fetch("https://carto.g-ny.org/data/cifs/cifs_waze_v2.json")
-  .then(response => {
-    response.json().then(json => {
-      console.log(json)
+// --- Traffic problems ---
+      fetch("https://carto.g-ny.org/data/cifs/cifs_waze_v2.json")
+        .then(response => {
+          response.json().then(json => {
+            console.log(json)
 
-      for (ind in json.incidents)
-      {
-        const coordinates = json.incidents[ind].location.polyline.split(" ");
-        console.log(ind)
-        console.log(coordinates)
-        // const lat = incident.
-        // const lon = json.data.stations[i].lon
-        //
-        console.log(parseFloat(coordinates[0]), parseFloat(coordinates[1]))
-        // const marker = L.marker(parseFloat(coordinates[0]), parseFloat(coordinates[1])).addTo(map);
-      }
+            for (let ind in json.incidents)
+            {
+              const coordinates = json.incidents[ind].location.polyline.split(" ");
+              // console.log(coordinates);
+              const marker = L.marker([parseFloat(coordinates[0]), parseFloat(coordinates[1])]).addTo(map);
+            }
 
-      // for (let i = 0; i < json.data.stations.length; i++) {
-      //   const lat = json.data.stations[i].lat
-      //   const lon = json.data.stations[i].lon
-      //   //Put a marker on the map
-      //   const marker = L.marker([lat, lon]).addTo(map);
-      // }
+          })
+        })
+
     })
   })
+
