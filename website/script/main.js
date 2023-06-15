@@ -26,14 +26,36 @@ const polygon = L.polygon([
   [51.51, -0.047]
 ]).addTo(map);
 
+
 // Popup opens when clicking on an element
 marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
 circle.bindPopup("I am a circle.")
   .openPopup(); // Popup automatically opened.
 polygon.bindPopup("I'm a polygon");
 
+//Popup as layout
 const popup = L.popup()
   .setLatLng([51.513, -0.09])
   .setContent("I'm a standalone popup")
   .openOn(map); //instead of addTo - close other popups before open it
   // .addTo(map);
+
+
+//Execute some stuff (function) when specified event is emitted by a component in the map
+map.on("click", onMapClick)
+
+function onMapClick(e) {
+  alert("You clicked on the map at " + e.latlng);
+}
+
+// Improved example
+const popup2 = L.popup();
+
+map.on("click", onMapClick2);
+
+function onMapClick2(e) {
+  popup2
+    .setLatLng(e.latlng)
+    .setContent("You clicked on the map at " + e.latlng)
+    .openOn(map);
+}
