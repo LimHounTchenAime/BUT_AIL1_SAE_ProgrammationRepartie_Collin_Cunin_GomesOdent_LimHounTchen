@@ -1,3 +1,4 @@
+let _stations=[]
 let map;
 
 // Initialize and center the map on Nancy
@@ -23,16 +24,39 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
     })
   })
 
-// Available Velibs
-fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
-.then(response => {
-  if (response.ok) {
-        response.json().then(response2 => {
+//ajout des infos depuis le serveur 1
+fetch("https://transport.data.gouv.fr/gbfs/nancy/station_status.json")
+    .then(response=>{
+        if(response.ok){
+            response.json().then(response2=>{
                 for (let i = 0; i < response2.data.stations.length; i++) {
-                    const lat = response2.data.stations[i].lat
-                    const lon = response2.data.stations[i].lon
-                    //Put a marker on the map
-                    const marker = L.marker([lat, lon]).addTo(map);
+                    //ajout des infos
+                    _stations[i] = { ...response2.data.stations[i], ..._stations[i] };
+                }
+            })
+        }
+    })
+
+//ajout d'infos depuis le serveur 2 et ajout stations
+fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
+    .then(response => {
+        if (response.ok) {
+            response.json().then(response2 => {
+                //icone des stations
+                var greenIcon = L.icon({
+                    iconUrl: 'https://www.smavd.org/wp-content/uploads/elementor/thumbs/Velo-pnn5fiv0mued6phjixnq24y55dm7fy4y16518hf9te.png',
+
+                    iconSize:     [50, 30], // size of the icon
+                });
+                for (let i = 0; i < response2.data.stations.length; i++) {
+                    //ajout des infos
+                    _stations[i] = { ...response2.data.stations[i], ..._stations[i] };
+                    //ajout d'une station
+                    const marker = L.marker([_stations[i].lat, _stations[i].lon], {icon: greenIcon}).addTo(map);
+                    marker.bindPopup(
+                        "Adresse : "+_stations[i].address.toString()+
+                        "<br>Vélos disponibles : "+_stations[i].num_bikes_available.toString()
+                        +"<br>Docks disponibles : "+_stations[i].num_docks_available.toString());
                 }
             })
         }
