@@ -1,3 +1,5 @@
+import db.Restaurant;
+
 import java.rmi.Naming;
 import java.util.List;
 

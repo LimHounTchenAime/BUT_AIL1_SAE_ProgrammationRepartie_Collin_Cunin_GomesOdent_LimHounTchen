@@ -1,3 +1,7 @@
+package db;
+
+import db.DBConnection;
+
 import java.io.Serializable;
 import java.sql.*;
 
