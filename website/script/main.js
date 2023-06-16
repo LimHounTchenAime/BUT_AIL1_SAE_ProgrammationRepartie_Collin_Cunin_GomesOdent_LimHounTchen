@@ -47,7 +47,6 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
                             //icone des stations
                             var icon = L.icon({
                                 iconUrl: 'https://www.smavd.org/wp-content/uploads/elementor/thumbs/Velo-pnn5fiv0mued6phjixnq24y55dm7fy4y16518hf9te.png',
-
                                 iconSize: [50, 30], // size of the icon
                             });
                             for (let i = 0; i < response2.data.stations.length; i++) {
@@ -81,14 +80,21 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
               iconSize: [50, 30], // size of the icon
             });
 
-            for (let ind in json.incidents)
+            for (let incident of json.incidents)
             {
-              let coordinates = json.incidents[ind].location.polyline.split(" ");
+              console.log(incident)
+              let coordinates = incident.location.polyline.split(" ");
               coordinates = coordinates.map(function (elt) {
                 return parseFloat(elt);
               });
               // console.log(coordinates);
               const marker = L.marker(coordinates, {icon: icon}).addTo(map);
+              marker.bindPopup(`
+                <h2>${incident.short_description}</h2>
+                <br><b>Type :</b> ${incident.type}
+                <br><b>Description :</b> ${incident.description}
+                <br><b>Depuis le :</b> ${new Date(incident.starttime).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric"})}
+              `);
             }
 
           })
