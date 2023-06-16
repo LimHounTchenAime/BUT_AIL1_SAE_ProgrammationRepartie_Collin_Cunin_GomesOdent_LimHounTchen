@@ -13,10 +13,10 @@ public class RMIClient {
             // Récupération de toutes les coordonnées de restaurants de Nancy
             List<Restaurant> restaurants = restaurantService.getAllRestaurants();
             for (Restaurant restaurant : restaurants) {
-                System.out.println("Nom: " + restaurant.nom());
-                System.out.println("Adresse: " + restaurant.adresse());
-                System.out.println("Latitude: " + restaurant.latitude());
-                System.out.println("Longitude: " + restaurant.longitude());
+                System.out.println("Nom: " + restaurant.getNom());
+                System.out.println("Adresse: " + restaurant.getAdresse());
+                System.out.println("Latitude: " + restaurant.getLatitude());
+                System.out.println("Longitude: " + restaurant.getLongitude());
                 System.out.println("------------------------");
             }
 
