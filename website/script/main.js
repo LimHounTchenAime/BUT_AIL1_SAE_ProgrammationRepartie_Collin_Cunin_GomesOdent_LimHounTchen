@@ -36,30 +36,33 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
                 _stations[i] = { ...response2.data.stations[i], ..._stations[i] };
               }
             })
-              //ajout d'infos depuis le serveur 2 et ajout stations
-              fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
-                  .then(response => {
-                      if (response.ok) {
-                          response.json().then(response2 => {
-                              //icone des stations
-                              var icon = L.icon({
-                                  iconUrl: 'https://www.smavd.org/wp-content/uploads/elementor/thumbs/Velo-pnn5fiv0mued6phjixnq24y55dm7fy4y16518hf9te.png',
-                                  iconSize: [50, 30], // size of the icon
-                              });
-                              for (let i = 0; i < response2.data.stations.length; i++) {
-                                  //ajout des infos
-                                  _stations[i] = {...response2.data.stations[i], ..._stations[i]};
-                                  //ajout d'une station
-                                  const marker = L.marker([_stations[i].lat, _stations[i].lon], {icon: icon}).addTo(map);
-                                  marker.bindPopup(
-                                      "<b>Adresse</b> : " + _stations[i].address.toString() +
-                                      "<br><b>Vélos disponibles</b> : " + _stations[i].num_bikes_available.toString()
-                                      + "<br><b>Places de parking libres</b> : " + _stations[i].num_docks_available.toString());
-                              }
-                          })
-                      }
+            //ajout d'infos depuis le serveur 2 et ajout stations
+            fetch("https://transport.data.gouv.fr/gbfs/nancy/station_information.json")
+              .then(response => {
+                if (response.ok) {
+                  response.json().then(response2 => {
+                    //icone des stations
+                    var icon = L.icon({
+                      iconUrl: 'https://www.smavd.org/wp-content/uploads/elementor/thumbs/Velo-pnn5fiv0mued6phjixnq24y55dm7fy4y16518hf9te.png',
+                      iconSize: [50, 30], // size of the icon
+                    });
+                    for (let i = 0; i < response2.data.stations.length; i++) {
+                      //ajout des infos
+                      _stations[i] = {...response2.data.stations[i], ..._stations[i]};
+                      //ajout d'une station
+                      const marker = L.marker([_stations[i].lat, _stations[i].lon], {icon: icon}).addTo(map);
+                      marker.bindPopup(
+                        "<b>Adresse</b> : " + _stations[i].address.toString() +
+                        "<br><b>Vélos disponibles</b> : " + _stations[i].num_bikes_available.toString()
+                        + "<br><b>Places de parking libres</b> : " + _stations[i].num_docks_available.toString());
+                    }
                   })
+                }
+              })
           }
+        })
+        .catch(function (error) {
+          console.log("yess!")
         })
 
 
@@ -91,17 +94,22 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
               // console.log(coordinates);
               const marker = L.marker(coordinates, {icon: icon}).addTo(map);
               marker.bindPopup(`
-                <h2>${incident.short_description}</h2>
-                <br><b>Type :</b> ${incident.type}
-                <br><b>Localisation :</b> ${incident.location.street}
-                <br><b>Description :</b> ${incident.description}
-                <br><b>Depuis le :</b> ${new Date(incident.starttime).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric"})}
-              `);
+              <h2>${incident.short_description}</h2>
+              <br><b>Type :</b> ${incident.type}
+              <br><b>Localisation :</b> ${incident.location.street}
+              <br><b>Description :</b> ${incident.description}
+              <br><b>Depuis le :</b> ${new Date(incident.starttime).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric"})}
+            `);
             }
 
           })
         })
 
     })
+  })
+  .catch(function (error) {
+    const msg = `Erreur réseau : Impossible de récupérer les données pour construire la carte (${error})`;
+    console.error(msg);
+    document.querySelector("#map").textContent = msg;
   })
 
