@@ -92,6 +92,7 @@ fetch("https://api-adresse.data.gouv.fr/search/?q=Nancy+54")
               marker.bindPopup(`
                 <h2>${incident.short_description}</h2>
                 <br><b>Type :</b> ${incident.type}
+                <br><b>Localisation :</b> ${incident.location.street}
                 <br><b>Description :</b> ${incident.description}
                 <br><b>Depuis le :</b> ${new Date(incident.starttime).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric"})}
               `);
