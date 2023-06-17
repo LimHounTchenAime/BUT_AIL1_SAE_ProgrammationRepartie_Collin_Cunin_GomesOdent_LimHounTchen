@@ -6,19 +6,38 @@ loadMap();
 /*
 --- VARIABLES ---
  */
-let _stations = []
-let map;
+/**
+ * Error message to display when the data is not found
+ * @type {string}
+ */
 const NET_ERR = "Erreur réseau";
+
+/**
+ * Location context to find the location data
+ * @type {string}
+ */
+const MAP_LOC_CONTEXT = "54, Meurthe-et-Moselle, Grand Est";
 
 
 /*
 --- FUNCTIONS ---
+ */
+/**
+ * Fetch data from the given url
+ * @param url {string} - The url to fetch data from
+ * @returns {Promise<any>}
  */
 async function fetcher(url) {
   const response = await fetch(url);
   return await response.json();
 }
 
+/**
+ * Check if the data is found, else throw an error
+ * @param data - The data to check
+ * @param message {string} - The error message to display
+ * @returns {*} - The data if it is found
+ */
 function loadChecker(data, message)
 {
   if (data.status === 'fulfilled') {
@@ -29,6 +48,10 @@ function loadChecker(data, message)
   }
 }
 
+/**
+ * Load the map from the data sources
+ * @returns {Promise<void>}
+ */
 async function loadMap()
 {
   try {
@@ -54,14 +77,22 @@ async function loadMap()
   }
 }
 
+/**
+ * Process the data and display them on the map
+ * @param locationData - The location data
+ * @param stationStatusData - The station status data
+ * @param stationInformationData - The station information data
+ * @param trafficProblemsData - The traffic problems data
+ */
 function processMap(locationData, stationStatusData, stationInformationData, trafficProblemsData)
 {
-  // Initialize and center the map on Nancy
+  // --- Display the map ---
   document.querySelector("#map").classList.remove("is-hidden");
 
+  // --- Initialize and center the map on Nancy ---
   // Check the location is found
   let i = 0;
-  while (locationData.features[i] && locationData.features[i].properties.context !== "54, Meurthe-et-Moselle, Grand Est") {
+  while (locationData.features[i] && locationData.features[i].properties.context !== MAP_LOC_CONTEXT) {
     i++;
   }
   const data = locationData.features[i] ? locationData.features[i] : "Localisation introuvable";
@@ -69,19 +100,16 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
   // Create Leaflet frame using location data
   const map = L.map('map').setView([data.geometry.coordinates[1], data.geometry.coordinates[0]], 13);
 
-  // Map copyright service to display in the Leaflet frame
+  // Use a map service to display in the Leaflet frame
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> - Données <a href="https://www.data.gouv.fr/fr/terms/" target="_blank">DataGouv</a>, <a href="https://www.datagrandest.fr/data4citizen/visualisation/information/?id=1642070072496-1" target="_blank">DataGrandEst</a>'
   }).addTo(map);
 
-  // Data sources
-  // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  //   maxZoom: 19,
-  //   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  // }).addTo(map);
 
-  // Process station status and information data
+  // --- Process station status and information data ---
+
+  let _stations = [];
   for (let i = 0; i < stationStatusData.data.stations.length; i++) {
     _stations[i] = { ...stationStatusData.data.stations[i], ..._stations[i] };
   }
@@ -101,7 +129,9 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
       + "<br><b>Places de parking libres</b> : " + _stations[i].num_docks_available.toString());
   }
 
-  // Process traffic problems data and add markers to the map
+
+  // --- Process traffic problems data and add markers to the map ---
+
   const trafficIcon = L.icon({
     iconUrl: 'assets/Logo_travaux_orange.svg',
     iconSize: [50, 30],
@@ -128,6 +158,10 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
 
 }
 
+/**
+ * Display an error message instead of the map
+ * @param msg - The error message to display
+ */
 function mapError(msg) {
   console.error(NET_ERR + " : " + msg);
   document.querySelector("#map").insertAdjacentHTML('afterend', "<p class='errorText blink'>" + NET_ERR + " : " + msg + "</p>");
