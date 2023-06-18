@@ -10,7 +10,7 @@ public class LancerServiceCentral {
             ServiceRestaurant service = new ServiceRestaurant();
             InterfaceServiceRestaurant sR = (InterfaceServiceRestaurant) UnicastRemoteObject.exportObject(service, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("ServiceRaytracing", sR);
+            registry.rebind("ServiceRestaurant", sR);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
