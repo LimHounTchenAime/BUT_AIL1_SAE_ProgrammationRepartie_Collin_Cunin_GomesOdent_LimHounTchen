@@ -1,4 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 #map {
-    height: 300px;
-    width: 500px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.errorText
+{
+    color:red;
+}
+
+.info-text
+{
+    color: blue;
+}
+
+.blink {
+    animation-duration: .8s;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    transition: none;
+}
+
+@keyframes blink {
+    0%   { opacity:1; }
+    40%   {opacity:0; }
+    100% { opacity:1; }
+}
+
+
+.is-hidden {
+    display: none;
 }
