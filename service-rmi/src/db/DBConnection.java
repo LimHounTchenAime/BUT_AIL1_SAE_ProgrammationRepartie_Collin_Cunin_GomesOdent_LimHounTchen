@@ -11,7 +11,7 @@ public class DBConnection
     private Connection connection;
     private static DBConnection instance;
 
-    private String nomDB;
+    private final String nomDB;
 
 
 
@@ -35,38 +35,23 @@ public class DBConnection
         return DBConnection.instance;
     }
 
-    public void setNomDB(String nomDB)
-    {
-        this.nomDB = nomDB;
-        try {
-            DBConnection.connect(this);
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     private DBConnection() throws SQLException {
 
-
-
         DBConnection.instance = this;
-        this.nomDB = "restaurants";
-        DBConnection.connect(DBConnection.instance);
+        this.nomDB = "rmi";
+        DBConnection.connect();
 
     }
 
 
-    private static void connect(DBConnection instance) throws SQLException {
+    private static void connect() throws SQLException {
 
         // variables a modifier en fonction de la base
         String userName = "root";
-        String password = "root";
+        String password = "";
         String serverName = "localhost";
         //Attention, sous MAMP, le port est 8889
         String portNumber = "3306";
-        String tableName = "restaurant";
 
         // iL faut une base nommee testPersonne !
         String dbName = DBConnection.getInstance().nomDB;

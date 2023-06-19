@@ -1,7 +1,5 @@
 package db;
 
-import db.DBConnection;
-
 import java.io.Serializable;
 import java.sql.*;
 
@@ -21,46 +19,20 @@ public class Restaurant implements Serializable {
         this.longitude = longitude;
     }
 
-    private Restaurant(int id, String nom, String adresse, double latitude, double longitude) {
-        this.id = id;
-        this.nom = nom;
-        this.adresse = adresse;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNom() {
-        return this.nom;
-    }
-
-    public String getAdresse() {
-        return this.adresse;
-    }
-
-    public double getLatitude() {
-        return this.latitude;
-    }
-
-    public double getLongitude() {
-        return this.longitude;
-    }
-
     public static void createTable(){
         Connection connection = DBConnection.getConnexion();
         try
         {
             assert connection != null;
             connection.createStatement().executeUpdate("""
-                        create table restaurants(
-                        id int(11) NOT NULL AUTO_INCREMENT,
-                        nom varchar(40) NOT NULL,
-                        adresse varchar(200) NOT NULL,
-                        PRIMARY KEY(id))
-                        """);
+                    create table restaurant(
+                        id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                        nom varchar(50) NOT NULL,
+                        adresse varchar(100) NOT NULL,
+                        latitude decimal(9,5) NOT NULL,
+                        longitude decimal(9,5) NOT NULL
+                    )
+                    """);
         }
         catch(SQLException e)
         {
@@ -70,12 +42,28 @@ public class Restaurant implements Serializable {
 
     }
 
-    private void saveNew()
+    public static void deleteTable()
     {
+
         try
         {
             Connection db = DBConnection.getConnexion();
-            String sql = "INSERT INTO restaurants (nom, adresse, latitude, longitude) VALUES(?, ?, ?, ?)";
+            assert db != null;
+            db.createStatement().executeUpdate("DROP TABLE restaurant");
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Supression impossible");
+            e.printStackTrace();
+        }
+
+    }
+
+    private void saveNew() {
+        try
+        {
+            Connection db = DBConnection.getConnexion();
+            String sql = "INSERT INTO restaurant (nom, adresse, latitude, longitude) VALUES(?, ?, ?, ?)";
             assert db != null;
             PreparedStatement statement = db.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, this.nom);
@@ -91,6 +79,41 @@ public class Restaurant implements Serializable {
         {
             System.out.println("Une erreur est survenu lors de l'insertion");
             e.printStackTrace();
+        }
+    }
+
+    private void update() {
+        try
+        {
+
+            Connection db = DBConnection.getConnexion();
+            String sql = "UPDATE restaurant SET nom = ?, adresse = ?, latitude = ?, longitude = ? WHERE id = ?";
+            assert db != null;
+            PreparedStatement statement = db.prepareStatement(sql);
+            statement.setString(1, this.nom);
+            statement.setString(2, this.adresse);
+            statement.setDouble(3, this.latitude);
+            statement.setDouble(4, this.longitude);
+            statement.setInt(5, this.id);
+            statement.executeUpdate();
+
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Une erreur est survenu lors de l'insertion");
+            e.printStackTrace();
+        }
+    }
+
+    public void save() {
+        if(this.id == -1)
+        {
+            this.saveNew();
+
+        }
+        else
+        {
+            this.update();
         }
     }
 }
