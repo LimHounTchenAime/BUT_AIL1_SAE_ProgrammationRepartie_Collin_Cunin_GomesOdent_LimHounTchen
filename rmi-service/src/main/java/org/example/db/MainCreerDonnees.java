@@ -1,4 +1,4 @@
-package db;
+package org.example.db;
 
 public class MainCreerDonnees {
 
@@ -36,6 +36,10 @@ public class MainCreerDonnees {
             r = restaurant;
             r.save();
         }
+
+        Reservation.deleteTable();
+
+        Reservation.createTable();
 
     }
 

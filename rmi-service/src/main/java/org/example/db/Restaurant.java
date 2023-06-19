@@ -1,4 +1,4 @@
-package db;
+package org.example.db;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -11,22 +11,6 @@ public class Restaurant implements Serializable {
     private final String adresse;
     private final double latitude;
     private final double longitude;
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
 
     public Restaurant(String nom, String adresse, double latitude, double longitude){
         this.id = -1;
@@ -52,7 +36,7 @@ public class Restaurant implements Serializable {
             Connection connection = DBConnection.getConnexion();
             assert connection != null;
             Statement s = connection.createStatement();
-            ResultSet rs = s.executeQuery("select * from Restaurant");
+            ResultSet rs = s.executeQuery("select * from restaurant");
             while (rs.next()) {
                 Restaurant p = new Restaurant(rs.getInt(1),
                         rs.getString(2),
@@ -65,7 +49,7 @@ public class Restaurant implements Serializable {
         }
         catch(SQLException e)
         {
-            System.out.println("Impossible de récupèrer les Restaurants");
+            System.out.println("Impossible de récupèrer les restaurants");
             e.printStackTrace();
             return null;
         }

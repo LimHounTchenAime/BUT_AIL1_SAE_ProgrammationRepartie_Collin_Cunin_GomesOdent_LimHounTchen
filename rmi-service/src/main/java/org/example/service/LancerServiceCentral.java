@@ -1,4 +1,4 @@
-package service;
+package org.example.service;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -8,9 +8,9 @@ public class LancerServiceCentral {
     public static void main(String[] args) {
         try{
             ServiceRestaurant service = new ServiceRestaurant();
-            InterfaceServiceRestaurant sR = (InterfaceServiceRestaurant) UnicastRemoteObject.exportObject(service, 0);
+            InterfaceServiceRestaurant sr = (InterfaceServiceRestaurant) UnicastRemoteObject.exportObject(service, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("ServiceRestaurant", sR);
+            registry.rebind("ServiceRestaurant", sr);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
