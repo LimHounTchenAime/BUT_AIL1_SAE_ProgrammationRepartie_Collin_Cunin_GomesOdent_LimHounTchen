@@ -116,7 +116,7 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
 
   // Process station information data and add markers to the map
   var icon = L.icon({
-    iconUrl: 'https://www.smavd.org/wp-content/uploads/elementor/thumbs/Velo-pnn5fiv0mued6phjixnq24y55dm7fy4y16518hf9te.png',
+    iconUrl: 'assets/velo.png',
     iconSize: [50, 30],
   });
 
@@ -164,5 +164,5 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
  */
 function mapError(msg) {
   console.error(NET_ERR + " : " + msg);
-  document.querySelector("#map").insertAdjacentHTML('afterend', "<p class='errorText blink'>" + NET_ERR + " : " + msg + "</p>");
+  document.querySelector("#map").insertAdjacentHTML('afterend', "<p class='error-text blink'>" + NET_ERR + " : " + msg + "</p>");
 }
