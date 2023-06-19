@@ -2,6 +2,7 @@ package db;
 
 import java.io.Serializable;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Restaurant implements Serializable {
 
@@ -11,12 +12,63 @@ public class Restaurant implements Serializable {
     private final double latitude;
     private final double longitude;
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
     public Restaurant(String nom, String adresse, double latitude, double longitude){
         this.id = -1;
         this.nom = nom;
         this.adresse = adresse;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    private Restaurant(int id, String nom, String adresse, double latitude, double longitude)
+    {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public static ArrayList<Restaurant> findAll() {
+        try {
+
+            ArrayList<Restaurant> res = new ArrayList<>();
+            Connection connection = DBConnection.getConnexion();
+            assert connection != null;
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery("select * from Restaurant");
+            while (rs.next()) {
+                Restaurant p = new Restaurant(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getDouble(5));
+                res.add(p);
+            }
+            return res;
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Impossible de récupèrer les Restaurants");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void createTable(){
