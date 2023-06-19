@@ -5,11 +5,11 @@
 }
 
 #map {
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
 }
 
-.errorText
+.error-text
 {
     color:red;
 }
@@ -35,4 +35,23 @@
 
 .is-hidden {
     display: none;
+}
+
+nav ul {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    padding: 0 20px;
+    height: 10vh;
+    font-size: large;
+}
+
+nav ul li:hover {
+    background: #ADD19E;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
 }

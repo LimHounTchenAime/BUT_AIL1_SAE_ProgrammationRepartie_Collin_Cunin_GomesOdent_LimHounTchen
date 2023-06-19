@@ -164,5 +164,5 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
  */
 function mapError(msg) {
   console.error(NET_ERR + " : " + msg);
-  document.querySelector("#map").insertAdjacentHTML('afterend', "<p class='errorText blink'>" + NET_ERR + " : " + msg + "</p>");
+  document.querySelector("#map").insertAdjacentHTML('afterend', "<p class='error-text blink'>" + NET_ERR + " : " + msg + "</p>");
 }
