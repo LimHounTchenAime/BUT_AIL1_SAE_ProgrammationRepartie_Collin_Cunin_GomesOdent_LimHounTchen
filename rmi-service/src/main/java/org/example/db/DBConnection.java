@@ -47,20 +47,17 @@ public class DBConnection
     private static void connect() throws SQLException {
 
         // variables a modifier en fonction de la base
-        String userName = "root";
-        String password = "";
-        String serverName = "localhost";
+        String userName = "cunin57u";
+        String password = "aled475";
         //Attention, sous MAMP, le port est 8889
         String portNumber = "3306";
 
-        // iL faut une base nommee testPersonne !
-        String dbName = DBConnection.getInstance().nomDB;
+        String dbName = "cunin57u";
 
         Properties connectionProps = new Properties();
         connectionProps.put("user", userName);
         connectionProps.put("password", password);
-        String urlDB = "jdbc:mysql://" + serverName + ":";
-        urlDB += portNumber + "/" + dbName;
+        String urlDB = "jdbc:mysql://webetu.iutnc.univ-lorraine.fr:" + portNumber + "/" + dbName;
         DBConnection.getInstance().connection = DriverManager.getConnection(urlDB, connectionProps);
     }
 
