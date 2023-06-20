@@ -11,7 +11,7 @@ public class ClientRestaurant {
             Registry registry = LocateRegistry.getRegistry(args[0], 1099);
             InterfaceServiceRestaurant sr = (InterfaceServiceRestaurant) registry.lookup("ServiceRestaurant");
             String restaurants = sr.recupererRestaurants();
-            System.out.println(restaurants);
+            System.out.println("resto : " + restaurants);
             sr.reserverTable("Cena", "John", 0, "0675859203");
         } catch(Exception e){
             System.out.println("Problème client : " + e.getMessage());

@@ -10,7 +10,6 @@ public class ServiceRestaurant implements Remote, InterfaceServiceRestaurant {
     public String recupererRestaurants(){
 
         JSONArray restaurantsJSON = Restaurant.findAll();
-        System.out.println(restaurantsJSON);
         assert restaurantsJSON != null;
         return restaurantsJSON.toString();
     }

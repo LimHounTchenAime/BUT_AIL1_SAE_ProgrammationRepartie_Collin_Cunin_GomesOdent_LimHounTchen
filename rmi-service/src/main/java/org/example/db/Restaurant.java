@@ -1,6 +1,7 @@
 package org.example.db;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -33,21 +34,21 @@ public class Restaurant implements Serializable {
 
     public static JSONArray findAll() {
         try {
-
-            ArrayList<Restaurant> res = new ArrayList<>();
+            JSONArray json = new JSONArray();
             Connection connection = DBConnection.getConnexion();
             assert connection != null;
             Statement s = connection.createStatement();
             ResultSet rs = s.executeQuery("select * from restaurant");
             while (rs.next()) {
-                Restaurant p = new Restaurant(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getDouble(4),
-                        rs.getDouble(5));
-                res.add(p);
+                JSONObject objet = new JSONObject();
+                objet.put("id", rs.getInt("id"));
+                objet.put("nom", rs.getString("nom"));
+                objet.put("adresse", rs.getString("adresse"));
+                objet.put("latitude", rs.getString("latitude"));
+                objet.put("longitude", rs.getString("longitude"));
+                json.put(objet);
             }
-            return new JSONArray(res);
+            return json;
         }
         catch(SQLException e)
         {
