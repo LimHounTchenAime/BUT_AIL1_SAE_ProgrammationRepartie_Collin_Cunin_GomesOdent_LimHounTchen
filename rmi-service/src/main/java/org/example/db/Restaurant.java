@@ -1,5 +1,7 @@
 package org.example.db;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class Restaurant implements Serializable {
         this.longitude = longitude;
     }
 
-    public static ArrayList<Restaurant> findAll() {
+    public static JSONArray findAll() {
         try {
 
             ArrayList<Restaurant> res = new ArrayList<>();
@@ -45,7 +47,7 @@ public class Restaurant implements Serializable {
                         rs.getDouble(5));
                 res.add(p);
             }
-            return res;
+            return new JSONArray(res);
         }
         catch(SQLException e)
         {
@@ -151,5 +153,16 @@ public class Restaurant implements Serializable {
         {
             this.update();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
     }
 }

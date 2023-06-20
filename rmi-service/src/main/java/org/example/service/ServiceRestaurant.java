@@ -5,13 +5,14 @@ import org.example.db.Restaurant;
 import org.json.JSONArray;
 
 import java.rmi.Remote;
-import java.util.ArrayList;
 
 public class ServiceRestaurant implements Remote, InterfaceServiceRestaurant {
-    public JSONArray recupererRestaurants(){
+    public String recupererRestaurants(){
 
-        ArrayList<Restaurant> restaurants = Restaurant.findAll();
-        return new JSONArray(restaurants);
+        JSONArray restaurantsJSON = Restaurant.findAll();
+        System.out.println(restaurantsJSON);
+        assert restaurantsJSON != null;
+        return restaurantsJSON.toString();
     }
     public void reserverTable(String nom, String prenom, int nbPers, String tel) {
 
