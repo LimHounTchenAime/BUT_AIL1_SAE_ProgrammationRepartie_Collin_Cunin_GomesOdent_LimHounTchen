@@ -4,7 +4,6 @@ import com.sun.net.httpserver.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

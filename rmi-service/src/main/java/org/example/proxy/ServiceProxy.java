@@ -11,7 +11,7 @@ public class ServiceProxy implements Remote {
     private static final String DB_USERNAME = "username";
     private static final String DB_PASSWORD = "password";
 
-    private static void registerToDatabase(String serviceName, String address, double longitude, double latitude) throws SQLException {
+    private static void registerRestaurant(String serviceName, String address, double longitude, double latitude) throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             String query = "INSERT INTO restaurant (name, address, longitude, latitude) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
