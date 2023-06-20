@@ -52,7 +52,7 @@ public class DBConnection
         Properties connectionProps = new Properties();
         connectionProps.put("user", userName);
         connectionProps.put("password", password);
-        String urlDB = "jdbc:mysql://webetu.iutnc.univ-lorraine.fr:" + portNumber + "/" + dbName;
+        String urlDB = "jdbc:mariadb://webetu.iutnc.univ-lorraine.fr:" + portNumber + "/" + dbName;
         DBConnection.getInstance().connection = DriverManager.getConnection(urlDB, connectionProps);
     }
 
