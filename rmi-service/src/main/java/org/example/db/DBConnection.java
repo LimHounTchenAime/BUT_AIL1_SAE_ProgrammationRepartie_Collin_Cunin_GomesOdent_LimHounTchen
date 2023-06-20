@@ -11,10 +11,6 @@ public class DBConnection
     private Connection connection;
     private static DBConnection instance;
 
-    private final String nomDB;
-
-
-
 
     public static Connection getConnexion() {
         try
@@ -24,7 +20,7 @@ public class DBConnection
         }
         catch(SQLException e)
         {
-            System.out.println("Impossible de ce connecter à la base de donnée !");
+            System.out.println("Impossible de se connecter à la base de donnée !");
             e.printStackTrace();
         }
         return null;
@@ -38,7 +34,6 @@ public class DBConnection
     private DBConnection() throws SQLException {
 
         DBConnection.instance = this;
-        this.nomDB = "rmi";
         DBConnection.connect();
 
     }
