@@ -2,43 +2,82 @@ package org.example.proxy;
 
 import com.sun.net.httpserver.*;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.*;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.*;
+import java.security.cert.CertificateException;
 
 public class Proxy {
-    private static final int PROXY_PORT = 8000;
-    private static final int RMI_PORT = 1099;
+    private int PROXY_PORT = 8000;
+    private int RMI_PORT = 1099;
 
-    public static void main(String[] args) throws IOException {
-        // Création d'un serveur HTTP
-        HttpServer server = HttpServer.create(new InetSocketAddress(PROXY_PORT), 0);
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException, KeyManagementException {
+        int portProxy = 8000;
+        String ipRMI = args[0];
+        int portRMI = 1098;
 
-        // Définition du gestionnaire de requêtes
-        server.createContext("/", new ProxyHandler());
+        HttpsServer server = HttpsServer.create(new InetSocketAddress(portProxy), 0);
+        SSLContext sslContext = SSLContext.getInstance("TLS");
 
-        // Démarrage du serveur HTTP
-        server.start();
+        // initialise the keystore
+        char[] password = "password".toCharArray();
+        KeyStore ks = KeyStore.getInstance("JKS");
+        FileInputStream fis = new FileInputStream("key.jks");
+        ks.load(fis, password);
 
-        System.out.println("Le serveur proxy écoute sur le port " + PROXY_PORT);
+        // setup the key manager factory
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, password);
 
-        // Enregistrement du service RMI
+        // setup the trust manager factory
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+        tmf.init(ks);
+
+        // setup the HTTPS context and parameters
+        sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+        server.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
+            public void configure(HttpsParameters params) {
+                try {
+                    // initialise the SSL context
+                    SSLContext context = getSSLContext();
+                    SSLEngine engine = context.createSSLEngine();
+                    params.setNeedClientAuth(false);
+                    params.setCipherSuites(engine.getEnabledCipherSuites());
+                    params.setProtocols(engine.getEnabledProtocols());
+
+                    // Set the SSL parameters
+                    SSLParameters sslParameters = context.getSupportedSSLParameters();
+                    params.setSSLParameters(sslParameters);
+
+                } catch (Exception ex) {
+                    System.out.println("Failed to create HTTPS port");
+                }
+            }
+        });
+        ServiceProxy sP = null;
+        // création du service proxy
         try {
-            ServiceProxy sP = new ServiceProxy();
-            Registry registryProxy = LocateRegistry.createRegistry(RMI_PORT);
+            sP = new ServiceProxy();
+            Registry registryProxy = LocateRegistry.createRegistry(portRMI);
             registryProxy.rebind("ServiceProxy", sP);
 
-            System.out.println("Le service RMI est enregistré sur le port " + RMI_PORT);
+            System.out.println("Le service proxy est enregistré sur le port " + portRMI);
         } catch (RemoteException e) {
             System.out.println("Erreur lors de l'enregistrement du service RMI : " + e.getMessage());
+        }
+        if(sP != null) {
+            server.createContext("/data", new ProxyHandler(sP));
+            server.setExecutor(null);
+            server.start();
+            System.out.println("Server started on port 8000");
+        }
+        else{
+            System.out.println("problème service proxy");
         }
     }
 }

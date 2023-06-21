@@ -1,6 +1,6 @@
 package org.example.proxy;
 
-public class ServiceProxy implements ServiceProxyInterface {
+public class ServiceProxy implements InterfaceServiceProxy {
     InterfaceServiceRestaurant restaurant = null;
 
     public void enregistrerRestaurant(InterfaceServiceRestaurant r){
