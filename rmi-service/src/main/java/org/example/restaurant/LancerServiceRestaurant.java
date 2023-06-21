@@ -1,5 +1,7 @@
 package org.example.restaurant;
 
+import org.example.proxy.InterfaceServiceProxy;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,11 +14,9 @@ public class LancerServiceRestaurant {
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("ServiceRestaurant", sr);
             Registry registryProxy = LocateRegistry.getRegistry(args[0], 1098);
-            System.out.println("truc");
             InterfaceServiceProxy sP = (InterfaceServiceProxy) registryProxy.lookup("ServiceProxy");
-            System.out.println("truc2");
-            sP.enregistrerRestaurant((InterfaceServiceRestaurant) sr);
-            System.out.println("truc3");
+            sP.enregistrerRestaurant(sr);
+            System.out.println("service restaurant enregistré");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

@@ -1,15 +1,23 @@
 package org.example.proxy;
 
+import org.example.restaurant.InterfaceServiceRestaurant;
+
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
-public class ServiceProxy implements org.example.restaurant.InterfaceServiceProxy, Serializable {
-    org.example.restaurant.InterfaceServiceRestaurant restaurant = null;
-
-    public void enregistrerRestaurant(org.example.restaurant.InterfaceServiceRestaurant r){
+public class ServiceProxy implements InterfaceServiceProxy, Serializable {
+    InterfaceServiceRestaurant restaurant = null;
+    @Override
+    public void enregistrerRestaurant(InterfaceServiceRestaurant r) throws RemoteException {
         this.restaurant = r;
     }
 
-    public void enregistrerEtablissement(){
+    @Override
+    public void enregistrerEtablissement() throws RemoteException{
 
+    }
+
+    public InterfaceServiceRestaurant getRestaurant(){
+        return restaurant;
     }
 }

@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.*;
 import java.security.cert.CertificateException;
 
@@ -60,17 +61,19 @@ public class Proxy {
             }
         });
         ServiceProxy sP = null;
+        InterfaceServiceProxy intSP = null;
         // création du service proxy
         try {
             sP = new ServiceProxy();
             Registry registryProxy = LocateRegistry.createRegistry(portRMI);
-            registryProxy.rebind("ServiceProxy", sP);
+            intSP = (InterfaceServiceProxy) UnicastRemoteObject.exportObject(sP, 0);
+            registryProxy.rebind("ServiceProxy", intSP);
 
             System.out.println("Le service proxy est enregistré sur le port " + portRMI);
         } catch (RemoteException e) {
             System.out.println("Erreur lors de l'enregistrement du service RMI : " + e.getMessage());
         }
-        if(sP != null) {
+        if(sP != null && intSP != null) {
             server.createContext("/data", new ProxyHandler(sP));
             server.setExecutor(null);
             server.start();

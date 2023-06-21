@@ -14,11 +14,12 @@ public class ProxyHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         // Récupérer les données de la base de données et les convertir en format JSON
-        String jsonData = service.restaurant.recupererRestaurants();
+        String jsonData = service.getRestaurant().recupererRestaurants();
+        System.out.println("aaaaaaaah");
 
         // Définir les en-têtes de réponse
         exchange.getResponseHeaders().set("Content-Type", "application/json");
-        exchange.sendResponseHeaders(200, jsonData.length());
+        exchange.sendResponseHeaders(200, jsonData.getBytes().length);
 
         // Envoyer les données JSON en réponse
         OutputStream outputStream = exchange.getResponseBody();
