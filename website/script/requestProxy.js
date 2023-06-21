@@ -162,16 +162,14 @@ function processMap(locationData, stationStatusData, stationInformationData, tra
 
     const restaurantIcon = L.icon({
         iconUrl: 'assets/restaurant.png',
-        iconSize: [50, 30],
+        iconSize: [30, 30],
     });
 
-    for (let i=0; i<restaurants.data.length;i++){
+    for (let i=0; i<restaurants.length;i++){
 
-        restaurants[i].add(restaurants[i].data);
-
-        const marker = L.marker([restaurants[i].latitude, restaurants[i].longitude], { icon: icon }).addTo(map);
+        const marker = L.marker([restaurants[i].latitude, restaurants[i].longitude], { icon: restaurantIcon }).addTo(map);
         marker.bindPopup(
-            "<b>Adresse</b> : " + restaurants[i].addresse.toString() +
+            "<b>Adresse</b> : " + restaurants[i].adresse.toString() +
             "<br><b>Nom du restaurant</b> : " + restaurants[i].nom.toString()
         );
     }
