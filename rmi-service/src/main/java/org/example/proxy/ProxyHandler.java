@@ -17,6 +17,9 @@ public class ProxyHandler implements HttpHandler {
         String jsonData = service.getRestaurant().recupererRestaurants();
 
         // Définir les en-têtes de réponse
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         exchange.sendResponseHeaders(200, jsonData.getBytes().length);
 
