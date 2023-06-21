@@ -5,11 +5,11 @@ import java.net.http.HttpResponse;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class DataServiceImpl extends UnicastRemoteObject implements DataService {
+public class ServiceDonnees extends UnicastRemoteObject implements InterfaceServiceDonnees {
     private final StringBuilder restaurantsData;
     private final StringBuilder establishmentsData;
 
-    protected DataServiceImpl() throws RemoteException {
+    protected ServiceDonnees() throws RemoteException {
         super();
         restaurantsData = new StringBuilder();
         establishmentsData = new StringBuilder();

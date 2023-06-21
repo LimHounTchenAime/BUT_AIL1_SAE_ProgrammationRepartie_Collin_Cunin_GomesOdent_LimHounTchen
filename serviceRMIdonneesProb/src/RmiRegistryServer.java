@@ -7,8 +7,8 @@ public class RmiRegistryServer {
         Registry registry = LocateRegistry.createRegistry(1099);
         
         // Enregistrement du service RMI
-        DataService dataService = new DataServiceImpl();
-        registry.rebind("DataServiceImpl", dataService);
+        InterfaceServiceDonnees interfaceServiceDonnees = new ServiceDonnees();
+        registry.rebind("ServiceDonnees", interfaceServiceDonnees);
         
         System.out.println("Serveur RMI en écoute sur le port 1099...");
     }
