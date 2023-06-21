@@ -1,9 +1,11 @@
 package org.example.proxy;
 
-public class ServiceProxy implements InterfaceServiceProxy {
-    InterfaceServiceRestaurant restaurant = null;
+import java.io.Serializable;
 
-    public void enregistrerRestaurant(InterfaceServiceRestaurant r){
+public class ServiceProxy implements org.example.restaurant.InterfaceServiceProxy, Serializable {
+    org.example.restaurant.InterfaceServiceRestaurant restaurant = null;
+
+    public void enregistrerRestaurant(org.example.restaurant.InterfaceServiceRestaurant r){
         this.restaurant = r;
     }
 

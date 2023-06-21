@@ -12,8 +12,11 @@ public class LancerServiceRestaurant {
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("ServiceRestaurant", sr);
             Registry registryProxy = LocateRegistry.getRegistry(args[0], 1098);
-            InterfaceServiceProxy sP = (InterfaceServiceProxy) registry.lookup("ServiceProxy");
-            sP.enregistrerRestaurant((org.example.proxy.InterfaceServiceRestaurant) sr);
+            System.out.println("truc");
+            InterfaceServiceProxy sP = (InterfaceServiceProxy) registryProxy.lookup("ServiceProxy");
+            System.out.println("truc2");
+            sP.enregistrerRestaurant((InterfaceServiceRestaurant) sr);
+            System.out.println("truc3");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
