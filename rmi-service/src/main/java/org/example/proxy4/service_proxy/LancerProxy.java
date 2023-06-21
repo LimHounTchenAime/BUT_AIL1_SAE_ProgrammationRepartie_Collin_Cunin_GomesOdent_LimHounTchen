@@ -1,29 +1,42 @@
 package org.example.proxy4.service_proxy;
 
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.AccessException;
-import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
-
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.rmi.*;
+import java.rmi.registry.*;
+import java.rmi.server.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LancerProxy {
     public static void main(String[] args) {
         try {
             // Creating service
             Proxy object = new Proxy(args[0]);
-            ProxyInterface rd = (ProxyInterface)UnicastRemoteObject.exportObject(object,4553);
+            ProxyInterface rd = (ProxyInterface) UnicastRemoteObject.exportObject(object, 4553);
 
             // Creating Registry and adding service
             Registry reg = LocateRegistry.createRegistry(Integer.parseInt(args[0]));
             reg.rebind("distributeur", rd);
             System.out.println("Service and Registry started");
+
+            // Creating and starting HTTP server
+            HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+            server.createContext("/proxy", object);
+            server.start();
         }
         catch (AccessException a) {
-            System.out.println("Failed to access regsitry : " + a.getMessage());
+            System.out.println("Failed to access registry : " + a.getMessage());
         }
         catch(RemoteException r){
             System.out.println("Error in getting registry" + r.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println("Error in starting HTTP server" + e.getMessage());
         }
     }
 }

@@ -2,22 +2,19 @@ package org.example.proxy4.service_proxy;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.rmi.*;
+import java.rmi.registry.*;
 import java.util.HashMap;
 import java.util.Map;
+import org.example.proxy4.service_client.ServiceInterface;
 
 public class Proxy implements ProxyInterface, HttpHandler {
 
-    private final Map<String, String> services = new HashMap<>();
+    private final Map<String, ServiceInterface> services = new HashMap<>();
 
     public Proxy(String registryHost) {
-        // Ajouter les services RMI enregistrés et leurs adresses ici
-        services.put("LeDistributeur", registryHost); // "rmi://localhost:1099/LeDistributeur"
     }
 
     @Override
@@ -51,12 +48,10 @@ public class Proxy implements ProxyInterface, HttpHandler {
     }
 
     private String callRmiService(String serviceName) {
-        String rmiUrl = services.get(serviceName);
-        if (rmiUrl != null) {
+        ServiceInterface service = services.get(serviceName);
+        if (service != null) {
             try {
-                Registry registry = LocateRegistry.getRegistry();
-                ServiceDistributeur service = (ServiceDistributeur) registry.lookup(rmiUrl);
-                int result = service.method();
+                int result = service.catchData("test"); //TODO: url to catch data
                 return "{\"result\": " + result + "}";
             } catch (Exception e) {
                 e.printStackTrace();
@@ -68,24 +63,18 @@ public class Proxy implements ProxyInterface, HttpHandler {
     }
 
     @Override
-    public synchronized void registerService(ServiceInterface serviceInterface) throws RemoteException {
+    public synchronized void registerService(String serviceName, ServiceInterface serviceInterface) throws RemoteException {
         synchronized (services){
-            services.add(serviceInterface);
-            System.out.println(serviceInterface);
-            System.out.println("Service added");
+            services.put(serviceName, serviceInterface);
+            System.out.println("Service added: " + serviceName);
         }
-
-
     }
 
     @Override
     public synchronized void deleteService(ServiceInterface serviceInterface) throws RemoteException {
         synchronized (services){
-            services.remove(serviceInterface);
+            services.values().remove(serviceInterface);
             System.out.println("Service deleted");
         }
-
     }
-
-
 }

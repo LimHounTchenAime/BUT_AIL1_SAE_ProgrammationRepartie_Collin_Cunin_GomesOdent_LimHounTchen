@@ -1,10 +1,9 @@
 package org.example.proxy4.service_client;
 
-import java.rmi.NotBoundException;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
+import java.rmi.*;
+import java.rmi.registry.*;
+import java.rmi.server.*;
+import org.example.proxy4.service_proxy.ProxyInterface;
 
 public class LancerService
 {
@@ -23,10 +22,11 @@ public class LancerService
 
             // Getting central service
             Registry reg = LocateRegistry.getRegistry(args[0], Integer.parseInt(args[1]));
-            ServiceDistributeur dist = (ServiceDistributeur) reg.lookup("distributeur");
+            ProxyInterface dist = (ProxyInterface) reg.lookup("distributeur");
 
             // Register to the Central service
-            dist.addService(serviceInterface);
+            String serviceName = "LeService";
+            dist.registerService(serviceName, serviceInterface);
 
             System.out.println("Service Started");
         }
@@ -38,7 +38,7 @@ public class LancerService
             System.out.println("Failed to add calcule to serveer");
             r.printStackTrace();
         }
-         catch (NotBoundException e) {
+        catch (NotBoundException e) {
             System.out.println("Failed to get central Service named 'Distibuteur' ");
         }
     }
