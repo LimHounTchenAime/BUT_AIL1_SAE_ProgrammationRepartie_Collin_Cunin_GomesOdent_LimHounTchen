@@ -46,7 +46,7 @@
                 de récupérer les coordonnées de tous les restaurants de la BD. De plus, le service RMI permet d'ajouter une
                 réservation à la BD, en enregistrant le nom, le prénom, le nombre de convives et les coordonnées téléphoniques
                 du client.</p>
-            <p>La seconde partie concerne l'affichage d'une carte avec des informations sur la circulation dans un site web.
+            <p>La seconde partie concerne l'affichage d'une carte avec des informations sur la circulation et les velibs dans un site web.
                 Après avoir mis en place le site web (HTML, CSS, JS), nous y avons intégré la carte en suivant la documentation
                 Leaflet. Il s’agissait ensuite de la localiser sur Nancy en récupérant les coordonnées depuis une API. Nous
                 avons ajouté les stations de vélib sur la carte - adresse, nombre de vélos disponibles, nombre de places de
@@ -60,9 +60,9 @@
                 la réponse. Nous avons programmé un client test qui se connecte au service. Enfin, le service peut s'inscrire
                 sur un Service Central (SC).</p>
             <p>Pour la quatrième et dernière partie, nous avons programmé un serveur Proxy proposant un Service Central (SC).
-                Ce proxy sert d'intermédiaire entre le site web et les données bloquées. Le SC permet l'enregistrement des
-                services RMI des restaurants et des établissements d'enseignement dans la base de données. Ces informations
-                sont également affichées sur la carte du site web.</p>
+                Ce proxy sert d'intermédiaire entre le site web et les données bloquées. Le SC permet l'accès aux établissements
+                d'enseignement (données bloquées) et aux restaurants de la base de données. Il permet également l'enregistrement des
+                restaurants dans la base de données. Ces informations sont affichées et modifiées affichées depuis la carte sur le site web.</p>
         </section>
     </main>
 

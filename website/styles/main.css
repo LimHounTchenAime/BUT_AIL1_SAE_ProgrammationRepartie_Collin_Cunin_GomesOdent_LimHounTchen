@@ -78,9 +78,15 @@ nav ul li a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    max-width: 800px;
 }
 
 #reportContent h2 {
     padding-bottom: 1em;
     padding-top: 2em;
+}
+
+#reportContent p {
+    margin: 0.5em;
 }
