@@ -1,6 +1,3 @@
-import java.rmi.Naming;
-import java.rmi.RemoteException;
-
 public class DataRetriever {
     public static void main(String[] args) {
         try {

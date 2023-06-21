@@ -6,8 +6,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class DataServiceImpl extends UnicastRemoteObject implements DataService {
-    private StringBuilder restaurantsData;
-    private StringBuilder establishmentsData;
+    private final StringBuilder restaurantsData;
+    private final StringBuilder establishmentsData;
 
     protected DataServiceImpl() throws RemoteException {
         super();
