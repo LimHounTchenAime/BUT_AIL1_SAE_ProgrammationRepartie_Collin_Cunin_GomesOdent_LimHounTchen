@@ -1,7 +1,5 @@
 package org.example.proxy4.service_proxy;
 
-import org.example.proxy2.service.Distributeur;
-
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;

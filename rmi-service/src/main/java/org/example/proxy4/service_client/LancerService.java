@@ -1,3 +1,5 @@
+package org.example.proxy4.service_client;
+
 import java.rmi.NotBoundException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
