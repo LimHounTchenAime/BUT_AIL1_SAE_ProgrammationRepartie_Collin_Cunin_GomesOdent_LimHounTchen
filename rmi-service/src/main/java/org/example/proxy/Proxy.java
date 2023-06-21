@@ -17,7 +17,6 @@ public class Proxy {
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException, KeyManagementException {
         int portProxy = 8000;
-        String ipRMI = args[0];
         int portRMI = 1098;
 
         HttpsServer server = HttpsServer.create(new InetSocketAddress(portProxy), 0);
