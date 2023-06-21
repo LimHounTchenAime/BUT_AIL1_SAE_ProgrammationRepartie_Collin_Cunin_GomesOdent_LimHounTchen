@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.restaurant;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

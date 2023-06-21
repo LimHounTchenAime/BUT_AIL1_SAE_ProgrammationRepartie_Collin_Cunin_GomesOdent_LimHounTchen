@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.restaurant;
 
 import org.example.db.Reservation;
 import org.example.db.Restaurant;
