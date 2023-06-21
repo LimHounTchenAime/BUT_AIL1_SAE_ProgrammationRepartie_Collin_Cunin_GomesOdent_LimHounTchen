@@ -1,52 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Compte-rendu</title>
+    <title>Carte</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <h1>Compte-rendu</h1>
-    <a href="https://github.com/Castorsorcier/BUT_AIL1_SAE_ProgrammationRepartie_Collin_Cunin_GomesOdent_LimHounTchen">Lien vers notre dépôt Git</a>
-    <h2>Informations nécessaires à l'utilisation de notre projet</h2>
-    <ul>
-        <li>.zip à télécharger avec les .class</li>
-        <li>Sous IntelliJ :
+    <nav>
+        <ul>
+            <li><a href="index.html">Carte</a></li>
+            <li><a href="queryError.html">Requête problématique</a></li>
+            <li><a href="report.html">Compte-rendu</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="reportContent">
+            <h1>Compte-rendu</h1>
+            <a href="https://github.com/Castorsorcier/BUT_AIL1_SAE_ProgrammationRepartie_Collin_Cunin_GomesOdent_LimHounTchen">Lien vers notre dépôt Git</a>
+            <h2>Informations nécessaires à l'utilisation de notre projet</h2>
             <ul>
-                <li>Dans le module "rmi-service", clic droit sur le fichier pom.xml et sélectionner “Add as Maven project”</li>
-                <li>Importer les librairies JSNObject et JSONArray en faisant le raccourci clavier “Alt + Entrée” et sélectionner la première proposition</li>
+                <li>.zip à télécharger avec les .class</li>
+                <li>Sous IntelliJ :
+                    <ul>
+                        <li>Dans le module "rmi-service", clic droit sur le fichier pom.xml et sélectionner “Add as Maven project”</li>
+                        <li>Importer les librairies JSNObject et JSONArray en faisant le raccourci clavier “Alt + Entrée” et sélectionner la première proposition</li>
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    <h2>Schéma de notre architecture</h2>
-    <img src="images/architecture.png" alt="Architecture">
-    <h2>Informations nécessaires à la compréhension de notre travail</h2>
-    <p>Infos</p>
-    <h2>Ce qui a été fait</h2>
-    <p>La première partie du projet consistait à interroger une base de données (BD) à l'aide d'un service RMI
-        (Remote Method Invocation). Nous avons d’abord ajouté des données de restaurants de la ville de Nancy à la BD :
-        leurs noms, adresses et coordonnées GPS. Le service RMI peut s'inscrire sur un service central, ce qui permet
-        de récupérer les coordonnées de tous les restaurants de la BD. De plus, le service RMI permet d'ajouter une
-        réservation à la BD, en enregistrant le nom, le prénom, le nombre de convives et les coordonnées téléphoniques
-        du client.</p>
-    <p>La seconde partie concerne l'affichage d'une carte avec des informations sur la circulation dans un site web.
-        Après avoir mis en place le site web (HTML, CSS, JS), nous y avons intégré la carte en suivant la documentation
-        Leaflet. Il s’agissait ensuite de la localiser sur Nancy en récupérant les coordonnées depuis une API. Nous
-        avons ajouté les stations de vélib sur la carte - adresse, nombre de vélos disponibles, nombre de places de
-        parking libres - en combinant les requêtes à 2 autres API. Nous avons ensuite ajouté les problèmes de
-        circulation - dates, causes, adresses - en utilisant une autre API. Enfin, pour gérer les erreurs réseau,
-        nous avons restructuré le code et ajouté des messages d’attente et d’erreurs qui s’affichent sur la page web
-        suivant le cas.</p>
-    <p>Pour la troisième partie, nous avons d’abord fait une requête depuis le site à une API proposant des données
-        bloquées. Nous recevons ainsi une erreur. Nous avons programmé un service RMI qui, tout comme le site web,
-        interroge ces données. Ce service renvoie le code d'erreur, le contenu de la réponse et le ‘content-type’ de
-        la réponse. Nous avons programmé un client test qui se connecte au service. Enfin, le service peut s'inscrire
-        sur un Service Central (SC).</p>
-    <p>Pour la quatrième et dernière partie, nous avons programmé un serveur Proxy proposant un Service Central (SC).
-        Ce proxy sert d'intermédiaire entre le site web et les données bloquées. Le SC permet l'enregistrement des
-        services RMI des restaurants et des établissements d'enseignement dans la base de données. Ces informations
-        sont également affichées sur la carte du site web.</p>
+            <h2>Schéma de notre architecture</h2>
+            <img src="images/architecture.png" alt="Architecture">
+            <h2>Informations nécessaires à la compréhension de notre travail</h2>
+            <p>Infos</p>
+            <h2>Ce qui a été fait</h2>
+            <p>La première partie du projet consistait à interroger une base de données (BD) à l'aide d'un service RMI
+                (Remote Method Invocation). Nous avons d’abord ajouté des données de restaurants de la ville de Nancy à la BD :
+                leurs noms, adresses et coordonnées GPS. Le service RMI peut s'inscrire sur un service central, ce qui permet
+                de récupérer les coordonnées de tous les restaurants de la BD. De plus, le service RMI permet d'ajouter une
+                réservation à la BD, en enregistrant le nom, le prénom, le nombre de convives et les coordonnées téléphoniques
+                du client.</p>
+            <p>La seconde partie concerne l'affichage d'une carte avec des informations sur la circulation dans un site web.
+                Après avoir mis en place le site web (HTML, CSS, JS), nous y avons intégré la carte en suivant la documentation
+                Leaflet. Il s’agissait ensuite de la localiser sur Nancy en récupérant les coordonnées depuis une API. Nous
+                avons ajouté les stations de vélib sur la carte - adresse, nombre de vélos disponibles, nombre de places de
+                parking libres - en combinant les requêtes à 2 autres API. Nous avons ensuite ajouté les problèmes de
+                circulation - dates, causes, adresses - en utilisant une autre API. Enfin, pour gérer les erreurs réseau,
+                nous avons restructuré le code et ajouté des messages d’attente et d’erreurs qui s’affichent sur la page web
+                suivant le cas.</p>
+            <p>Pour la troisième partie, nous avons d’abord fait une requête depuis le site à une API proposant des données
+                bloquées. Nous recevons ainsi une erreur. Nous avons programmé un service RMI qui, tout comme le site web,
+                interroge ces données. Ce service renvoie le code d'erreur, le contenu de la réponse et le ‘content-type’ de
+                la réponse. Nous avons programmé un client test qui se connecte au service. Enfin, le service peut s'inscrire
+                sur un Service Central (SC).</p>
+            <p>Pour la quatrième et dernière partie, nous avons programmé un serveur Proxy proposant un Service Central (SC).
+                Ce proxy sert d'intermédiaire entre le site web et les données bloquées. Le SC permet l'enregistrement des
+                services RMI des restaurants et des établissements d'enseignement dans la base de données. Ces informations
+                sont également affichées sur la carte du site web.</p>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
 </body>
 </html>

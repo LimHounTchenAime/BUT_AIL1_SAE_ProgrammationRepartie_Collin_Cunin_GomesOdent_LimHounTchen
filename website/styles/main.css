@@ -67,3 +67,20 @@ nav ul li a {
     align-items: center;
     height: 90vh;
 }
+
+
+/*
+--- Report ---
+ */
+
+#reportContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#reportContent h2 {
+    padding-bottom: 1em;
+    padding-top: 2em;
+}
