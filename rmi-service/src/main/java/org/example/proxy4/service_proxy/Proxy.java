@@ -1,21 +1,23 @@
-package org.example.proxy2.server;
+package org.example.proxy4.service_proxy;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyHandler implements HttpHandler {
-    private final Map<String, String> rmiServices = new HashMap<>();
+public class Proxy implements ProxyInterface, HttpHandler {
 
-    public ProxyHandler(String registryHost) {
+    private final Map<String, String> services = new HashMap<>();
+
+    public Proxy(String registryHost) {
         // Ajouter les services RMI enregistrés et leurs adresses ici
-        rmiServices.put("LeDistributeur", registryHost); // "rmi://localhost:1099/LeDistributeur"
+        services.put("LeDistributeur", registryHost); // "rmi://localhost:1099/LeDistributeur"
     }
 
     @Override
@@ -49,7 +51,7 @@ public class ProxyHandler implements HttpHandler {
     }
 
     private String callRmiService(String serviceName) {
-        String rmiUrl = rmiServices.get(serviceName);
+        String rmiUrl = services.get(serviceName);
         if (rmiUrl != null) {
             try {
                 Registry registry = LocateRegistry.getRegistry();
@@ -64,5 +66,26 @@ public class ProxyHandler implements HttpHandler {
             return "{\"error\": \"Service not found\"}";
         }
     }
-}
 
+    @Override
+    public synchronized void registerService(ServiceInterface serviceInterface) throws RemoteException {
+        synchronized (services){
+            services.add(serviceInterface);
+            System.out.println(serviceInterface);
+            System.out.println("Service added");
+        }
+
+
+    }
+
+    @Override
+    public synchronized void deleteService(ServiceInterface serviceInterface) throws RemoteException {
+        synchronized (services){
+            services.remove(serviceInterface);
+            System.out.println("Service deleted");
+        }
+
+    }
+
+
+}

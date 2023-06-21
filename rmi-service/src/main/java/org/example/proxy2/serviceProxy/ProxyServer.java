@@ -1,4 +1,4 @@
-package org.example.proxy2.server;
+package org.example.proxy2.serviceProxy;
 
 import com.sun.net.httpserver.HttpServer;
 
