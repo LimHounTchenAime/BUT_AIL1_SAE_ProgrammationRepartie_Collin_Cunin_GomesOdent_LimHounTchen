@@ -1,9 +1,9 @@
-package org.example.proxy4.service_client;
+package org.example.service_client;
 
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
-import org.example.proxy4.service_proxy.ProxyInterface;
+import org.example.service_proxy.ProxyInterface;
 
 public class LancerService
 {

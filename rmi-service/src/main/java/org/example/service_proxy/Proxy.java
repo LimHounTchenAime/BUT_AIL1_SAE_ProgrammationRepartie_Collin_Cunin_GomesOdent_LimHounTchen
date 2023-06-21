@@ -1,14 +1,13 @@
-package org.example.proxy4.service_proxy;
+package org.example.service_proxy;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.rmi.*;
-import java.rmi.registry.*;
 import java.util.HashMap;
 import java.util.Map;
-import org.example.proxy4.service_client.ServiceInterface;
+import org.example.service_client.ServiceInterface;
 
 public class Proxy implements ProxyInterface, HttpHandler {
 

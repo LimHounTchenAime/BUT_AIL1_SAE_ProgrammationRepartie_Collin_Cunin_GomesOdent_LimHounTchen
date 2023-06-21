@@ -1,4 +1,4 @@
-package org.example.proxy4.service_client;
+package org.example.service_client;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

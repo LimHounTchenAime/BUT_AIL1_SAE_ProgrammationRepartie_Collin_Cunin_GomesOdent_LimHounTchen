@@ -1,7 +1,5 @@
 package org.example.client;
 
-import org.example.restaurant.InterfaceServiceRestaurant;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 

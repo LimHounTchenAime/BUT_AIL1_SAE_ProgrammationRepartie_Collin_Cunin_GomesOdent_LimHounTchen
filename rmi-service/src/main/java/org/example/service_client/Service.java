@@ -1,3 +1,4 @@
+package org.example.service_client;
 
 import raytracer.Image;
 import raytracer.Scene;

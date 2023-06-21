@@ -6,15 +6,16 @@ import org.json.JSONArray;
 
 import java.rmi.Remote;
 
-public class ServiceRestaurant implements Remote, InterfaceServiceRestaurant {
-    public String recupererRestaurants(){
-
+public class ServiceRestaurant implements Remote, InterfaceServiceRestaurant, ServiceInterface {
+    @Override
+    public String recupererRestaurants() {
         JSONArray restaurantsJSON = Restaurant.findAll();
         assert restaurantsJSON != null;
         return restaurantsJSON.toString();
     }
-    public void reserverTable(String nom, String prenom, int nbPers, String tel) {
 
+    @Override
+    public void reserverTable(String nom, String prenom, int nbPers, String tel) {
         Reservation r = new Reservation(nom, prenom, nbPers, tel);
         r.save();
     }

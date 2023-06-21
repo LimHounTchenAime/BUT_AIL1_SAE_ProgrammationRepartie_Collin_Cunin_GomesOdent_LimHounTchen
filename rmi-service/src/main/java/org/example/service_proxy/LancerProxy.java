@@ -1,16 +1,11 @@
-package org.example.proxy4.service_proxy;
+package org.example.service_proxy;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LancerProxy {
     public static void main(String[] args) {
