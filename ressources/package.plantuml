@@ -1,0 +1,153 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+package "client" {
+    class ClientRestaurant {
+      + ClientRestaurant():
+      + main(String[]): void
+    }
+}
+package "db" {
+    class DBConnection {
+      - DBConnection():
+      - instance: DBConnection
+      - connect(): void
+       connexion: Connection?
+       instance: DBConnection
+    }
+    class MainCreerDonnees {
+      + MainCreerDonnees():
+      + main(String[]): void
+    }
+    class Reservation {
+      + Reservation(String, String, int, String):
+      + createTable(): void
+      - saveNew(): void
+      + deleteTable(): void
+      + save(): void
+      - update(): void
+    }
+    class Restaurant {
+      + Restaurant(String, String, double, double):
+      - Restaurant(int, String, String, double, double):
+      + toString(): String
+      + createTable(): void
+      + save(): void
+      - saveNew(): void
+      - update(): void
+      + findAll(): JSONArray?
+      + deleteTable(): void
+    }
+}
+
+package "etablissement" {
+    interface InterfaceServiceEtablissement << interface >>
+
+    class LancerServiceEtablissement {
+      + LancerServiceEtablissement():
+      + main(String[]): void
+    }
+
+    class ServiceEtablissement {
+      + ServiceEtablissement():
+    }
+}
+
+package "proxy" {
+    interface InterfaceServiceProxy << interface >> {
+      + enregistrerRestaurant(InterfaceServiceRestaurant): void
+      + enregistrerEtablissement(): void
+    }
+
+    class Proxy {
+      + Proxy():
+      + main(String[]): void
+    }
+    class ProxyHandler {
+      + ProxyHandler(ServiceProxy):
+      + handle(HttpExchange): void
+    }
+
+    class ServiceProxy {
+      + ServiceProxy():
+      ~ restaurant: InterfaceServiceRestaurant
+      + enregistrerEtablissement(): void
+      + enregistrerRestaurant(InterfaceServiceRestaurant): void
+       restaurant: InterfaceServiceRestaurant
+    }
+}
+
+package "restaurant"
+ {
+    interface InterfaceServiceRestaurant << interface >> {
+      + reserverTable(String, String, int, String): void
+      + recupererRestaurants(): String
+    }
+    class LancerServiceRestaurant {
+      + LancerServiceRestaurant():
+      + main(String[]): void
+    }
+
+    class ServiceRestaurant {
+      + ServiceRestaurant():
+      + recupererRestaurants(): String
+      + reserverTable(String, String, int, String): void
+    }
+ }
+
+package "testDonnéesBloquées" {
+    class LancerService {
+      + LancerService():
+      + main(String[]): void
+    }
+
+
+    class ServiceHttpClient {
+      + ServiceHttpClient():
+      + makeHttpRequest(String): Map<String, String>
+    }
+
+
+    class Client {
+      + Client():
+      + main(String[]): void
+    }
+
+    interface InterfaceServiceHttpClient << interface >> {
+      + makeHttpRequest(String): Map<String, String>
+    }
+}
+
+
+
+Client                         -[#595959,dashed]->  InterfaceServiceHttpClient    
+ClientRestaurant               -[#595959,dashed]->  InterfaceServiceRestaurant    
+DBConnection                  "1" *-[#595959,plain]-> "instance\n1" DBConnection                  
+DBConnection                   -[#595959,dashed]->  DBConnection                  : "«create»"
+InterfaceServiceProxy          -[#595959,dashed]->  InterfaceServiceRestaurant    
+LancerService                  -[#595959,dashed]->  InterfaceServiceHttpClient    
+LancerService                  -[#595959,dashed]->  ServiceHttpClient             : "«create»"
+LancerServiceRestaurant        -[#595959,dashed]->  InterfaceServiceProxy         
+LancerServiceRestaurant        -[#595959,dashed]->  InterfaceServiceRestaurant    
+LancerServiceRestaurant        -[#595959,dashed]->  ServiceRestaurant             : "«create»"
+MainCreerDonnees               -[#595959,dashed]->  Reservation                   
+MainCreerDonnees               -[#595959,dashed]->  Restaurant                    : "«create»"
+Proxy                          -[#595959,dashed]->  InterfaceServiceProxy         
+Proxy                          -[#595959,dashed]->  ProxyHandler                  : "«create»"
+Proxy                          -[#595959,dashed]->  ServiceProxy                  : "«create»"
+ProxyHandler                   -[#595959,dashed]->  InterfaceServiceRestaurant    
+ProxyHandler                  "1" *-[#595959,plain]-> "service\n1" ServiceProxy                  
+Reservation                    -[#595959,dashed]->  DBConnection                  
+Reservation                    -[#595959,dashed]->  Reservation                   
+Restaurant                     -[#595959,dashed]->  DBConnection                  
+Restaurant                     -[#595959,dashed]->  Restaurant                    
+ServiceHttpClient              -[#008200,dashed]-^  InterfaceServiceHttpClient    
+ServiceProxy                   -[#008200,dashed]-^  InterfaceServiceProxy         
+ServiceProxy                  "1" *-[#595959,plain]-> "restaurant\n1" InterfaceServiceRestaurant    
+ServiceRestaurant              -[#008200,dashed]-^  InterfaceServiceRestaurant    
+ServiceRestaurant              -[#595959,dashed]->  Reservation                   : "«create»"
+ServiceRestaurant              -[#595959,dashed]->  Restaurant                    
+@enduml
