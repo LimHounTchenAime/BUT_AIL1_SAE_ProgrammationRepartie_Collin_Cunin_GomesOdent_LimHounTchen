@@ -15,7 +15,6 @@ public class ProxyHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         // Récupérer les données de la base de données et les convertir en format JSON
         String jsonData = service.getRestaurant().recupererRestaurants();
-        System.out.println("aaaaaaaah");
 
         // Définir les en-têtes de réponse
         exchange.getResponseHeaders().set("Content-Type", "application/json");
