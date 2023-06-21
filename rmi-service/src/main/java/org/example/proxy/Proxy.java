@@ -27,7 +27,7 @@ public class Proxy {
         // initialise the keystore
         char[] password = "password".toCharArray();
         KeyStore ks = KeyStore.getInstance("JKS");
-        FileInputStream fis = new FileInputStream("key.jks");
+        FileInputStream fis = new FileInputStream("ressources/testkey.jks");
         ks.load(fis, password);
 
         // setup the key manager factory
