@@ -14,8 +14,6 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 public class Proxy {
-    private int PROXY_PORT = 8000;
-    private int RMI_PORT = 1099;
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException, UnrecoverableKeyException, KeyManagementException {
         int portProxy = 8000;
