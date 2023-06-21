@@ -11,8 +11,6 @@ public class LancerServiceRestaurant {
         try{
             ServiceRestaurant service = new ServiceRestaurant();
             InterfaceServiceRestaurant sr = (InterfaceServiceRestaurant) UnicastRemoteObject.exportObject(service, 0);
-            Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("ServiceRestaurant", sr);
             Registry registryProxy = LocateRegistry.getRegistry(args[0], 1098);
             InterfaceServiceProxy sP = (InterfaceServiceProxy) registryProxy.lookup("ServiceProxy");
             sP.enregistrerRestaurant(sr);
